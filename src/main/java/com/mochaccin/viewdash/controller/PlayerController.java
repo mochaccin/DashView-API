@@ -30,7 +30,7 @@ public class PlayerController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("playerStats/{id}")
     public ResponseEntity<?> getPlayerStats(@PathVariable String id){
         return Optional.ofNullable(playerService.getPlayerStats(id))
                 .map(ResponseEntity::ok)

@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface IPlayerService {
     List<Player> getAllPlayers();
+    Player getPlayerById(String id);
     void addPlayer();
-
     PlayerStats getPlayerStats(String id);
 }

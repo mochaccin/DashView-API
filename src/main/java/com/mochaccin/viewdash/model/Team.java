@@ -6,7 +6,9 @@ import lombok.Data;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Document(collection = "Team")
@@ -16,17 +18,12 @@ public class Team {
 
     @Id
     private ObjectId objectId;
-
     private String name;
-    private List<Player> players;
-    private List<Coach> coaches;
-    private List<String> teamPlaystyle;
-    private int leaguePosition;
-    private int leaguePoints;
-    private int totalEarnings;
-    private int matchesPlayed;
-    private int matchesWon;
-    private int matchesLost;
-    private int winRate;
 
+    @DocumentReference
+    private List<Player> players;
+
+    private List<Coach> coaches;
+    private HashMap<String, String> teamPlaystyle;
+    private HashMap<String, String> teamStats;
 }

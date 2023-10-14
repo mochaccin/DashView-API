@@ -28,17 +28,28 @@ public class PlayerServiceImpl implements IPlayerService {
     }
 
     @Override
-    public PlayerStats getPlayerStats(String id) {
-        PlayerStats pl = null;
-
-        if (id.length() < 23) {
+    public Player getPlayerById(String id) {
+        try {
+            if (playerRepository.findById(new ObjectId(id)).isPresent()) {
+                return playerRepository.findById(new ObjectId(id)).get();
+            }
+        } catch (Exception e) {
             return null;
         }
+        return null;
+    }
 
-        if (playerRepository.findById(new ObjectId(id)).isPresent()) {
-            pl = playerRepository.findById(new ObjectId(id)).get().getPlayerStats();
+    @Override
+    public PlayerStats getPlayerStats(String id) {
+
+        try {
+            if (playerStatsRepository.findByPlayerId(new ObjectId(id)).isPresent()) {
+                return playerStatsRepository.findByPlayerId(new ObjectId(id)).get();
+            }
+        } catch (Exception e) {
+            return null;
         }
-        return pl;
+        return null;
     }
 
     @Override
