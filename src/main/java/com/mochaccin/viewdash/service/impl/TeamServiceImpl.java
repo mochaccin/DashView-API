@@ -1,8 +1,10 @@
 package com.mochaccin.viewdash.service.impl;
 
+import com.mochaccin.viewdash.dtomappers.TeamDTOMapper;
 import com.mochaccin.viewdash.model.Coach;
 import com.mochaccin.viewdash.model.Player;
 import com.mochaccin.viewdash.model.Team;
+import com.mochaccin.viewdash.model.dto.TeamDTO;
 import com.mochaccin.viewdash.repository.PlayerRepository;
 import com.mochaccin.viewdash.repository.TeamRepository;
 import com.mochaccin.viewdash.service.ITeamService;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TeamServiceImpl implements ITeamService {
@@ -22,6 +25,9 @@ public class TeamServiceImpl implements ITeamService {
 
     @Autowired
     PlayerRepository playerRepository;
+
+    @Autowired
+    TeamDTOMapper teamDTOMapper;
 
     @Override
     public List<Player> getTeamPlayers(String teamId) {
@@ -40,39 +46,53 @@ public class TeamServiceImpl implements ITeamService {
     public void addTeam() {
 
         List<Player> players = new ArrayList<>();
-        players.add(playerRepository.findById(new ObjectId("652afbcf44b79e068da1c1e6")).get());
-        Coach coach = new Coach("B1ad3", "Andrii Horodenskyi", "Ukrainian", "https://d3dwep9z8m8y9r.cloudfront.net/players/2023/08/players-4823/navi_portrait/40865/conversions/b1ad3_830x1044-webp.webp", "Primary Coach");
+        players.add(playerRepository.findById(new ObjectId("653ec136904fcd74a89a88ce")).get());
+        Coach coach = new Coach("guerri", "Nicholas Nogueira", "Brazilian", "", "Primary Coach");
         List<Coach> coaches = new ArrayList<>();
         coaches.add(coach);
         HashMap<String, String> teamPlaystyle = new HashMap<>();
         HashMap<String, String> teamStats = new HashMap<>();
 
-        teamPlaystyle.put("aggresive", "91");
-        teamPlaystyle.put("tactical", "86");
-        teamPlaystyle.put("support", "61");
-        teamPlaystyle.put("rusher", "76");
-        teamPlaystyle.put("patient", "67");
-        teamPlaystyle.put("saver", "53");
-        teamPlaystyle.put("secure", "87");
-        teamPlaystyle.put("effective", "98");
-        teamPlaystyle.put("teamwork", "80");
-        teamPlaystyle.put("focus", "89");
+        teamPlaystyle.put("aggresive", "96");
+        teamPlaystyle.put("tactical", "98");
+        teamPlaystyle.put("support", "90");
+        teamPlaystyle.put("rusher", "85");
+        teamPlaystyle.put("patient", "87");
+        teamPlaystyle.put("saver", "85");
+        teamPlaystyle.put("secure", "96");
+        teamPlaystyle.put("effective", "92");
+        teamPlaystyle.put("teamwork", "99");
+        teamPlaystyle.put("focus", "92");
         teamPlaystyle.put("ambition", "100");
 
-        teamStats.put("leaguePosition", "#1");
-        teamStats.put("leaguePoints", "12");
-        teamStats.put("totalEarnings", "20,779,480.99");
+        teamStats.put("leaguePosition", "#8");
+        teamStats.put("leaguePoints", "3");
+        teamStats.put("totalEarnings", "$1,669,298");
         teamStats.put("matchesPlayed", "4");
-        teamStats.put("matchesWon", "4");
-        teamStats.put("matchesLost", "0");
-        teamStats.put("winRate", "100");
+        teamStats.put("matchesWon", "1");
+        teamStats.put("matchesLost", "3");
+        teamStats.put("winRate", "25");
 
-        Team team = new Team(new ObjectId(), "Natus Vincere", players, coaches, teamPlaystyle, teamStats);
+        Team team = new Team(new ObjectId(), "FURIA Esports", "", players, coaches, teamPlaystyle, teamStats);
         teamRepository.insert(team);
     }
 
     @Override
-    public List<Team> getTeams() {
-        return teamRepository.findAll();
+    public void addPlayerToTeam(ObjectId teamId, ObjectId playerId) {
+        Team team;
+        Player player;
+        if (teamRepository.findById(teamId).isPresent() || playerRepository.findById(playerId).isPresent()) {
+            team = teamRepository.findById(teamId).get();
+            List<Player> players = team.getPlayers();
+            player = playerRepository.findById(playerId).get();
+            players.add(player);
+            team.setPlayers(players);
+            teamRepository.save(team);
+        }
+    }
+
+    @Override
+    public List<TeamDTO> getTeams() {
+        return teamRepository.findAll().stream().map(teamDTOMapper).toList();
     }
 }

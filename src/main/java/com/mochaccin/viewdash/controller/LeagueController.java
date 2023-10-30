@@ -2,13 +2,16 @@ package com.mochaccin.viewdash.controller;
 
 
 import com.mochaccin.viewdash.model.League;
+import com.mochaccin.viewdash.model.dto.LeagueDTO;
 import com.mochaccin.viewdash.service.ILeagueService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/leagues")
@@ -19,13 +22,21 @@ public class LeagueController {
     ILeagueService leagueService;
 
     @GetMapping
-    public ResponseEntity<List<League>> getLeagues() {
+    public ResponseEntity<List<LeagueDTO>> getLeagues() {
         return ResponseEntity.ok(leagueService.getLeagues());
     }
+
+
 
     @PostMapping
     public ResponseEntity addLeague() {
         leagueService.addLeague();
+        return ResponseEntity.status(HttpStatus.CREATED).build();
+    }
+
+    @PostMapping("/addTeams")
+    public ResponseEntity addPlayerToTeam() {
+        leagueService.addTeamToLeague(new ObjectId("652b1b2848dc890a9cad0ca9"), new ObjectId("653d7c19e5569e735015b8b5"));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }

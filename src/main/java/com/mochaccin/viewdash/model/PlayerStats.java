@@ -38,5 +38,5 @@ public class PlayerStats {
 
     private HashMap<String, Weapon> playerWeaponStats;
     private HashMap<String, Map> playerMapStats;
-    private HashMap<String, String> playerPlaystyle;
+    private HashMap<String, Integer> playerPlaystyle;
 }

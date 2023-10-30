@@ -22,6 +22,7 @@ public class Player {
     private String nationality;
     private String birthday;
     private String role;
+    private String imgUrl;
 
     @DocumentReference
     private PlayerStats playerStats;

@@ -19,6 +19,7 @@ public class Team {
     @Id
     private ObjectId objectId;
     private String name;
+    private String imgUrl;
 
     @DocumentReference
     private List<Player> players;
