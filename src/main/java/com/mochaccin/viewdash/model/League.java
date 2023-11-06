@@ -1,18 +1,22 @@
 package com.mochaccin.viewdash.model;
 
 
+import com.mochaccin.viewdash.model.dto.TeamDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.data.mongodb.core.mapping.DocumentReference;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Document(collection = "League")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class League {
 
     @Id
@@ -21,5 +25,6 @@ public class League {
     private String name;
     @DocumentReference
     private List<Team> teams;
+    private HashMap<String, TeamLeagueDetails> teamsDetails;
     private String imgUrl;
 }

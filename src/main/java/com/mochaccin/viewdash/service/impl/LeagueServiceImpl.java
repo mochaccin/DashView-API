@@ -1,10 +1,13 @@
 package com.mochaccin.viewdash.service.impl;
 
 import com.mochaccin.viewdash.dtomappers.LeagueDTOMapper;
+import com.mochaccin.viewdash.dtomappers.TeamDTOMapper;
 import com.mochaccin.viewdash.model.League;
 import com.mochaccin.viewdash.model.Player;
 import com.mochaccin.viewdash.model.Team;
+import com.mochaccin.viewdash.model.TeamLeagueDetails;
 import com.mochaccin.viewdash.model.dto.LeagueDTO;
+import com.mochaccin.viewdash.model.dto.TeamDTO;
 import com.mochaccin.viewdash.repository.LeagueRepository;
 import com.mochaccin.viewdash.repository.TeamRepository;
 import com.mochaccin.viewdash.service.ILeagueService;
@@ -13,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -27,6 +31,8 @@ public class LeagueServiceImpl implements ILeagueService {
 
     @Autowired
     LeagueDTOMapper leagueDTOMapper;
+    @Autowired
+    TeamDTOMapper teamDTOMapper;
 
     @Override
     public List<LeagueDTO> getLeagues() {
@@ -35,10 +41,15 @@ public class LeagueServiceImpl implements ILeagueService {
 
     @Override
     public void addLeague() {
-        List<Team> teams = new ArrayList<>();
-        teams.add(teamRepository.findById(new ObjectId("652b15f0e5f83d10943d45f0")).get());
-        League league = new League(new ObjectId(), "ESL PRO LEAGUE", teams, "https://img-cdn.hltv.org/eventlogo/PbunDRVk171inaIYCiN8QE.png?ixlib=java-2.1.0&s=ac138ad77192b828aaa88bcdaeb66057");
-        leagueRepository.insert(league);
+        List<Team> teams = teamRepository.findAll();
+        League league = leagueRepository.findAll().get(0);
+        HashMap<String, TeamLeagueDetails> teamLeagueDetails = new HashMap<>();
+        TeamLeagueDetails tld = new TeamLeagueDetails(12, 1);
+        for (Team team : teams) {
+            teamLeagueDetails.put(team.getObjectId().toHexString(), tld);
+        }
+        league.setTeamsDetails(teamLeagueDetails);
+        leagueRepository.save(league);
     }
 
     @Override

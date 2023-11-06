@@ -44,37 +44,6 @@ public class TeamServiceImpl implements ITeamService {
 
     @Override
     public void addTeam() {
-
-        List<Player> players = new ArrayList<>();
-        players.add(playerRepository.findById(new ObjectId("653ec136904fcd74a89a88ce")).get());
-        Coach coach = new Coach("guerri", "Nicholas Nogueira", "Brazilian", "", "Primary Coach");
-        List<Coach> coaches = new ArrayList<>();
-        coaches.add(coach);
-        HashMap<String, String> teamPlaystyle = new HashMap<>();
-        HashMap<String, String> teamStats = new HashMap<>();
-
-        teamPlaystyle.put("aggresive", "96");
-        teamPlaystyle.put("tactical", "98");
-        teamPlaystyle.put("support", "90");
-        teamPlaystyle.put("rusher", "85");
-        teamPlaystyle.put("patient", "87");
-        teamPlaystyle.put("saver", "85");
-        teamPlaystyle.put("secure", "96");
-        teamPlaystyle.put("effective", "92");
-        teamPlaystyle.put("teamwork", "99");
-        teamPlaystyle.put("focus", "92");
-        teamPlaystyle.put("ambition", "100");
-
-        teamStats.put("leaguePosition", "#8");
-        teamStats.put("leaguePoints", "3");
-        teamStats.put("totalEarnings", "$1,669,298");
-        teamStats.put("matchesPlayed", "4");
-        teamStats.put("matchesWon", "1");
-        teamStats.put("matchesLost", "3");
-        teamStats.put("winRate", "25");
-
-        Team team = new Team(new ObjectId(), "FURIA Esports", "", players, coaches, teamPlaystyle, teamStats);
-        teamRepository.insert(team);
     }
 
     @Override

@@ -34,10 +34,6 @@ public class TeamController {
 
     @PostMapping("/addPlayer")
     public ResponseEntity addPlayerToTeam() {
-        teamService.addPlayerToTeam(new ObjectId("653ec29d9fd2f316d033a019"), new ObjectId("653ebe636f374330d1c2dee9"));
-        teamService.addPlayerToTeam(new ObjectId("653ec29d9fd2f316d033a019"), new ObjectId("653ec2fb5efb474b11d333a3"));
-        teamService.addPlayerToTeam(new ObjectId("653ec29d9fd2f316d033a019"), new ObjectId("653ec441975d6c3483d005cc"));
-        teamService.addPlayerToTeam(new ObjectId("653ec29d9fd2f316d033a019"), new ObjectId("653ec47f80289904d84d6dff"));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 }
