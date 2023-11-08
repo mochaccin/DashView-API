@@ -12,4 +12,6 @@ public interface ITeamService {
     List<TeamDTO> getTeams();
 
     void addPlayerToTeam(ObjectId teamId, ObjectId playerId);
+
+    Team getTeamByName(String teamName);
 }

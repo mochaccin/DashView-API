@@ -61,6 +61,15 @@ public class TeamServiceImpl implements ITeamService {
     }
 
     @Override
+    public Team getTeamByName(String teamName) {
+        if (teamName.isEmpty()) { return null; }
+
+        if (!teamRepository.existsByName(teamName)) { return null; }
+
+        return teamRepository.findTeamByName(teamName).get();
+    }
+
+    @Override
     public List<TeamDTO> getTeams() {
         return teamRepository.findAll().stream().map(teamDTOMapper).toList();
     }
