@@ -77,7 +77,7 @@ public class LeagueServiceImpl implements ILeagueService {
     }
 
     @Override
-    public HashMap<String, TeamLeagueDetails> getTeamDetailsByLeagueId(String leagueId, String teamId) {
+    public HashMap<String, TeamLeagueDetails> getTeamDetailsByLeagueId(String leagueId) {
         if(leagueRepository.findById(new ObjectId(leagueId)).isPresent()){
            return leagueRepository.findById(new ObjectId(leagueId)).get().getTeamsDetails();
         }

@@ -19,6 +19,6 @@ public interface ILeagueService {
     
     List<TeamDTO> getTeamsByLeagueId(String objectId);
 
-    public HashMap<String, TeamLeagueDetails> getTeamDetailsByLeagueId(String leagueId, String teamId);
+    public HashMap<String, TeamLeagueDetails> getTeamDetailsByLeagueId(String leagueId);
 
 }
