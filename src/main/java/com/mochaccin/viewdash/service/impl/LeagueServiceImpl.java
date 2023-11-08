@@ -65,4 +65,23 @@ public class LeagueServiceImpl implements ILeagueService {
             leagueRepository.save(league);
         }
     }
+
+
+    @Override
+    public List<TeamDTO> getTeamsByLeagueId(String leagueId) {
+        if(leagueRepository.findById(new ObjectId(leagueId)).isPresent()){
+             return leagueRepository.findById(new ObjectId(leagueId)).get().getTeams().stream().map(teamDTOMapper).toList();
+        }else{
+            return null;
+        }
+    }
+
+    @Override
+    public HashMap<String, TeamLeagueDetails> getTeamDetailsByLeagueId(String leagueId, String teamId) {
+        if(leagueRepository.findById(new ObjectId(leagueId)).isPresent()){
+           return leagueRepository.findById(new ObjectId(leagueId)).get().getTeamsDetails();
+        }
+        return null;
+    }
+
 }

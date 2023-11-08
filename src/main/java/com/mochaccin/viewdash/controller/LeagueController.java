@@ -3,6 +3,7 @@ package com.mochaccin.viewdash.controller;
 
 import com.mochaccin.viewdash.model.League;
 import com.mochaccin.viewdash.model.dto.LeagueDTO;
+import com.mochaccin.viewdash.model.dto.TeamDTO;
 import com.mochaccin.viewdash.service.ILeagueService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,4 +40,21 @@ public class LeagueController {
         leagueService.addTeamToLeague(new ObjectId("652b1b2848dc890a9cad0ca9"), new ObjectId("653d7c19e5569e735015b8b5"));
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
+
+    @GetMapping("/{leagueId}/teams")
+        public ResponseEntity<List<TeamDTO>> getTeamsByLeagueId(@PathVariable String leagueId) {
+        List<TeamDTO> teams = leagueService.getTeamsByLeagueId(leagueId);
+            if (teams != null && !teams.isEmpty()) {
+                return ResponseEntity.ok(teams);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        }
+
+       // @GetMapping("/{leagueId}/league/team/details")
+        
+
+
+
+
 }
