@@ -73,4 +73,27 @@ public class TeamServiceImpl implements ITeamService {
     public List<TeamDTO> getTeams() {
         return teamRepository.findAll().stream().map(teamDTOMapper).toList();
     }
+
+    @Override
+    public HashMap<String, String> getTeamPlaystyle(String teamId) {
+        return teamRepository.findById(new ObjectId(teamId)).get().getTeamPlaystyle();
+    }
+
+    @Override
+    public HashMap<String, String> getTeamStats(String teamId) {
+        return teamRepository.findById(new ObjectId(teamId)).get().getTeamStats();
+    }
+
+    @Override
+    public List<Coach> getTeamCoaches(String teamId) {
+
+        try {
+            if (teamRepository.findById(new ObjectId(teamId)).isPresent()) {
+                return teamRepository.findById(new ObjectId(teamId)).get().getCoaches();
+            }
+        } catch (Exception e) {
+            return null;
+        }
+        return null;
+    }
 }

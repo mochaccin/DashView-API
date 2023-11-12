@@ -42,8 +42,24 @@ public class TeamController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    @PostMapping("/addPlayer")
-    public ResponseEntity addPlayerToTeam() {
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @GetMapping("/{teamId}/playstyle")
+    public ResponseEntity<?> getTeamPlaystyleByTeamId(@PathVariable String teamId){
+        return Optional.ofNullable(teamService.getTeamPlaystyle(teamId))
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
+    }
+
+    @GetMapping("/{teamId}/stats")
+    public ResponseEntity<?> getTeamStatsByTeamId(@PathVariable String teamId){
+        return Optional.ofNullable(teamService.getTeamStats(teamId))
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
+    }
+
+    @GetMapping("/{teamId}/coaches")
+    public ResponseEntity<?> getTeamCoachesByTeamId(@PathVariable String teamId){
+        return Optional.ofNullable(teamService.getTeamCoaches(teamId))
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
     }
 }

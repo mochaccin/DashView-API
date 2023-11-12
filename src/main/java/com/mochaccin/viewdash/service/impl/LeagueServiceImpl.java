@@ -41,15 +41,6 @@ public class LeagueServiceImpl implements ILeagueService {
 
     @Override
     public void addLeague() {
-        List<Team> teams = teamRepository.findAll();
-        League league = leagueRepository.findAll().get(0);
-        HashMap<String, TeamLeagueDetails> teamLeagueDetails = new HashMap<>();
-        TeamLeagueDetails tld = new TeamLeagueDetails(12, 1);
-        for (Team team : teams) {
-            teamLeagueDetails.put(team.getObjectId().toHexString(), tld);
-        }
-        league.setTeamsDetails(teamLeagueDetails);
-        leagueRepository.save(league);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.mochaccin.viewdash.controller;
 
 
 import com.mochaccin.viewdash.model.Player;
+import com.mochaccin.viewdash.model.dto.PlayerDTO;
 import com.mochaccin.viewdash.service.IPlayerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -20,8 +21,15 @@ public class PlayerController {
     private IPlayerService playerService;
 
     @GetMapping
-    public ResponseEntity<List<Player>> getPlayers() {
+    public ResponseEntity<List<PlayerDTO>> getPlayers() {
         return ResponseEntity.ok(playerService.getAllPlayers());
+    }
+
+    @GetMapping("/nickname/{playerNickname}")
+    public ResponseEntity<?> getTeamByNickname(@PathVariable String playerNickname){
+        return Optional.ofNullable(playerService.getPlayerByNickname(playerNickname))
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
     }
 
     @PostMapping
