@@ -59,12 +59,12 @@ public class PlayerServiceImpl implements IPlayerService {
 
         try {
             playerStatsRepository.deleteByPlayerId(playerObjectId);
-            teamRepository.findAll().forEach(team -> {
+            for (Team team : teamRepository.findAll()) {
                 team.getPlayers().removeIf(player ->
                         player.getObjectId().toHexString().equals(playerId)
                 );
                 teamRepository.save(team);
-            });
+            }
             playerRepository.deleteById(playerObjectId);
             return true;
         } catch (Exception e) {
