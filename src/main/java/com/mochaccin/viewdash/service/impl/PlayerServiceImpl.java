@@ -49,6 +49,18 @@ public class PlayerServiceImpl implements IPlayerService {
     }
 
     @Override
+    public boolean deletePlayer(String playerId) {
+        if (playerId.length() != 24) { return false; }
+
+        try {
+            playerRepository.deleteById(new ObjectId(playerId));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
     public Player getPlayerById(String id) {
 
         if (id.length() != 24) { return null; }

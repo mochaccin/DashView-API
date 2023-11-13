@@ -53,4 +53,12 @@ public class PlayerController {
                 .map(ResponseEntity::ok)
                 .orElseGet(ResponseEntity.notFound()::build);
     }
+
+    @DeleteMapping("/{playerId}")
+    public ResponseEntity<?> deletePlayer(@PathVariable String playerId) {
+        if (playerService.deletePlayer(playerId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
 }

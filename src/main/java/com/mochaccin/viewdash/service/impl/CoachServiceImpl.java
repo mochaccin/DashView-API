@@ -25,6 +25,8 @@ public class CoachServiceImpl implements ICoachService {
 
     @Override
     public boolean deleteCoach(String coachId) {
+        if (coachId.length() != 24) { return false; }
+
         try {
             coachRepository.deleteById(new ObjectId(coachId));
             return true;
