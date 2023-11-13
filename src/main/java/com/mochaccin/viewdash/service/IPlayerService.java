@@ -12,4 +12,6 @@ public interface IPlayerService {
     PlayerDTO getPlayerByNickname(String playerNickname);
 
     boolean createPlayer(Player playerBody);
+
+    boolean deletePlayer(String playerId);
 }
