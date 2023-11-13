@@ -2,6 +2,8 @@ package com.mochaccin.viewdash.model;
 
 
 import com.mochaccin.viewdash.model.dto.TeamDTO;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,9 +24,13 @@ public class League {
     @Id
     private ObjectId objectId;
 
+    @NotNull
+    @NotBlank
     private String name;
     @DocumentReference
     private List<Team> teams;
     private HashMap<String, TeamLeagueDetails> teamsDetails;
+    @NotBlank
+    @NotNull
     private String imgUrl;
 }

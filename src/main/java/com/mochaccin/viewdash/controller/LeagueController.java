@@ -6,10 +6,12 @@ import com.mochaccin.viewdash.model.TeamLeagueDetails;
 import com.mochaccin.viewdash.model.dto.LeagueDTO;
 import com.mochaccin.viewdash.model.dto.TeamDTO;
 import com.mochaccin.viewdash.service.ILeagueService;
+import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -30,9 +32,16 @@ public class LeagueController {
     }
 
     @PostMapping
-    public ResponseEntity addLeague() {
-        leagueService.addLeague();
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<?> createLeague(@Valid @RequestBody League leagueBody, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Uno o mas campos estan vacios.");
+        }
+
+        if (leagueService.createLeague(leagueBody)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().body("Ocurrio un error en el servidor.");
     }
 
     @PostMapping("/addTeams")

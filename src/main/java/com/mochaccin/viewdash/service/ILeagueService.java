@@ -13,7 +13,7 @@ import java.util.List;
 public interface ILeagueService {
     List<LeagueDTO> getLeagues();
 
-    void addLeague();
+    boolean createLeague(League leagueBody);
 
     void addTeamToLeague(ObjectId leagueId, ObjectId teamId);
     

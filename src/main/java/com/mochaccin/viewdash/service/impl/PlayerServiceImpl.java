@@ -39,6 +39,16 @@ public class PlayerServiceImpl implements IPlayerService {
     }
 
     @Override
+    public boolean createPlayer(Player playerBody) {
+        try {
+            playerRepository.insert(playerBody);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    @Override
     public Player getPlayerById(String id) {
 
         if (id.length() != 24) { return null; }
@@ -48,9 +58,5 @@ public class PlayerServiceImpl implements IPlayerService {
         if (playerRepository.findById(playerObjectId).isEmpty()) { return null; }
 
         return playerRepository.findById(playerObjectId).get();
-    }
-
-    @Override
-    public void addPlayer() {
     }
 }

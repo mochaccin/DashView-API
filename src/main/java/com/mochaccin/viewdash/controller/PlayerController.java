@@ -1,12 +1,14 @@
 package com.mochaccin.viewdash.controller;
 
-
 import com.mochaccin.viewdash.model.Player;
+import com.mochaccin.viewdash.model.Team;
 import com.mochaccin.viewdash.model.dto.PlayerDTO;
 import com.mochaccin.viewdash.service.IPlayerService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,9 +35,16 @@ public class PlayerController {
     }
 
     @PostMapping
-    public ResponseEntity addPlayer() {
-        playerService.addPlayer();
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<?> createPlayer(@Valid @RequestBody Player playerBody, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Uno o mas campos estan vacios.");
+        }
+
+        if (playerService.createPlayer(playerBody)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().body("Ocurrio un error en el servidor.");
     }
 
     @GetMapping("/{playerId}")

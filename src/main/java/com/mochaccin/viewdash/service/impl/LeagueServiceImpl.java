@@ -40,7 +40,13 @@ public class LeagueServiceImpl implements ILeagueService {
     }
 
     @Override
-    public void addLeague() {
+    public boolean createLeague(League leagueBody) {
+        try {
+            leagueRepository.insert(leagueBody);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 
     @Override

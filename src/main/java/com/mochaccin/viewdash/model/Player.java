@@ -1,5 +1,7 @@
 package com.mochaccin.viewdash.model;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,11 +19,23 @@ public class Player {
     @Id
     ObjectId objectId;
 
+    @NotNull
+    @NotBlank
     private String nickname;
+    @NotNull
+    @NotBlank
     private String name;
+    @NotNull
+    @NotBlank
     private String nationality;
+    @NotNull
+    @NotBlank
     private String birthday;
+    @NotNull
+    @NotBlank
     private String role;
+    @NotNull
+    @NotBlank
     private String imgUrl;
 
     @DocumentReference

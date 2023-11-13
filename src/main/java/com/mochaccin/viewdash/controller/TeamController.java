@@ -1,15 +1,18 @@
 package com.mochaccin.viewdash.controller;
 
 
+import com.mochaccin.viewdash.model.League;
 import com.mochaccin.viewdash.model.Player;
 import com.mochaccin.viewdash.model.Team;
 import com.mochaccin.viewdash.model.TeamLeagueDetails;
 import com.mochaccin.viewdash.model.dto.TeamDTO;
 import com.mochaccin.viewdash.service.ITeamService;
+import jakarta.validation.Valid;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -37,9 +40,16 @@ public class TeamController {
     }
 
     @PostMapping
-    public ResponseEntity addTeam() {
-        teamService.addTeam();
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    public ResponseEntity<?> createTeam(@Valid @RequestBody Team teamBody, BindingResult bindingResult) {
+
+        if (bindingResult.hasErrors()) {
+            return ResponseEntity.badRequest().body("Uno o mas campos estan vacios.");
+        }
+
+        if (teamService.createTeam(teamBody)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().body("Ocurrio un error en el servidor.");
     }
 
     @GetMapping("/{teamId}/playstyle")

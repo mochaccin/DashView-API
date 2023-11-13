@@ -11,11 +11,8 @@ import com.mochaccin.viewdash.service.ITeamService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class TeamServiceImpl implements ITeamService {
@@ -41,11 +38,6 @@ public class TeamServiceImpl implements ITeamService {
         }
         return null;
     }
-
-    @Override
-    public void addTeam() {
-    }
-
     @Override
     public void addPlayerToTeam(ObjectId teamId, ObjectId playerId) {
         Team team;
@@ -95,5 +87,15 @@ public class TeamServiceImpl implements ITeamService {
             return null;
         }
         return null;
+    }
+
+    @Override
+    public boolean createTeam(Team teamBody) {
+        try {
+            teamRepository.insert(teamBody);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

@@ -8,7 +8,8 @@ import java.util.List;
 public interface IPlayerService {
     List<PlayerDTO> getAllPlayers();
     Player getPlayerById(String id);
-    void addPlayer();
 
     PlayerDTO getPlayerByNickname(String playerNickname);
+
+    boolean createPlayer(Player playerBody);
 }

@@ -10,7 +10,6 @@ import java.util.List;
 
 public interface ITeamService {
     List<Player> getTeamPlayers(String teamId);
-    void addTeam();
     List<TeamDTO> getTeams();
 
     void addPlayerToTeam(ObjectId teamId, ObjectId playerId);
@@ -22,4 +21,6 @@ public interface ITeamService {
     public HashMap<String, String> getTeamStats(String teamId);
 
     public List<Coach> getTeamCoaches(String teamId);
+
+    boolean createTeam(Team teamBody);
 }
