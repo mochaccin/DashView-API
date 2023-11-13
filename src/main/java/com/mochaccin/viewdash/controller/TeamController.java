@@ -8,6 +8,8 @@ import com.mochaccin.viewdash.model.TeamLeagueDetails;
 import com.mochaccin.viewdash.model.dto.TeamDTO;
 import com.mochaccin.viewdash.service.ITeamService;
 import jakarta.validation.Valid;
+
+import org.apache.catalina.connector.Response;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -72,4 +74,17 @@ public class TeamController {
                 .map(ResponseEntity::ok)
                 .orElseGet(ResponseEntity.notFound()::build);
     }
+
+    @GetMapping("/{teamId}/players")
+    public ResponseEntity<?> getTeamPlayersByTeamId(@PathVariable String teamId){
+        try{
+        return Optional.ofNullable(teamService.getTeamPlayers(teamId))
+                        .map(ResponseEntity::ok)
+                        .orElseGet(ResponseEntity.notFound()::build);
+        }
+        catch (Exception e){
+            return ResponseEntity.badRequest().body("Ocurrio un error en el servidor.");
+        }
+    }
+        
 }
