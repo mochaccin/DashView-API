@@ -86,5 +86,13 @@ public class TeamController {
             return ResponseEntity.badRequest().body("Ocurrio un error en el servidor.");
         }
     }
+
+    @DeleteMapping("/{teamId}")
+    public ResponseEntity<?> deleteTeam(@PathVariable String teamId){
+        if (teamService.deleteTeam( teamId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
         
 }

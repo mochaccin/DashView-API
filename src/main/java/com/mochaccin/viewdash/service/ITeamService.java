@@ -24,4 +24,5 @@ public interface ITeamService {
     public List<Coach> getTeamCoaches(String teamId);
 
     boolean createTeam(Team teamBody);
+    boolean deleteTeam(String teamId);
 }
