@@ -58,7 +58,6 @@ public class PlayerServiceImpl implements IPlayerService {
         ObjectId playerObjectId = new ObjectId(playerId);
 
         try {
-            playerRepository.deleteById(playerObjectId);
             playerStatsRepository.deleteByPlayerId(playerObjectId);
             teamRepository.findAll().forEach(team -> {
                 team.getPlayers().removeIf(player ->
@@ -66,6 +65,7 @@ public class PlayerServiceImpl implements IPlayerService {
                 );
                 teamRepository.save(team);
             });
+            playerRepository.deleteById(playerObjectId);
             return true;
         } catch (Exception e) {
             return false;

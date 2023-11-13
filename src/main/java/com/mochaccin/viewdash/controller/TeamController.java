@@ -34,6 +34,14 @@ public class TeamController {
         return ResponseEntity.ok(teamService.getTeams());
     }
 
+    @DeleteMapping("/{teamId}")
+    public ResponseEntity<?> deleteTeam(@PathVariable String teamId) {
+        if (teamService.deleteTeam(teamId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
     @GetMapping("/name/{teamName}")
     public ResponseEntity<?> getTeamByName(@PathVariable String teamName){
         return Optional.ofNullable(teamService.getTeamByName(teamName))

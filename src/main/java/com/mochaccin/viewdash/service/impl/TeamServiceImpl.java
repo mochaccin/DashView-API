@@ -3,9 +3,11 @@ package com.mochaccin.viewdash.service.impl;
 import com.mochaccin.viewdash.dtomappers.PlayerDTOMapper;
 import com.mochaccin.viewdash.dtomappers.TeamDTOMapper;
 import com.mochaccin.viewdash.model.Coach;
+import com.mochaccin.viewdash.model.League;
 import com.mochaccin.viewdash.model.Team;
 import com.mochaccin.viewdash.model.dto.PlayerDTO;
 import com.mochaccin.viewdash.model.dto.TeamDTO;
+import com.mochaccin.viewdash.repository.LeagueRepository;
 import com.mochaccin.viewdash.repository.PlayerRepository;
 import com.mochaccin.viewdash.repository.TeamRepository;
 import com.mochaccin.viewdash.service.ITeamService;
@@ -19,16 +21,19 @@ import java.util.List;
 public class TeamServiceImpl implements ITeamService {
 
     @Autowired
-    TeamRepository teamRepository;
+    private TeamRepository teamRepository;
 
     @Autowired
-    PlayerRepository playerRepository;
+    private PlayerRepository playerRepository;
 
     @Autowired
-    TeamDTOMapper teamDTOMapper;
+    private LeagueRepository leagueRepository;
 
     @Autowired
-    PlayerDTOMapper playerDTOMapper;
+    private TeamDTOMapper teamDTOMapper;
+
+    @Autowired
+    private PlayerDTOMapper playerDTOMapper;
 
     @Override
     public List<PlayerDTO> getTeamPlayers(String teamId) {
@@ -127,13 +132,24 @@ public class TeamServiceImpl implements ITeamService {
 
     @Override
     public boolean deleteTeam(String teamId) {
+        if (teamId.length() != 24) { return false; }
+
         try {
+            teamRepository.findById(new ObjectId(teamId)).get().getPlayers().forEach(player -> {
+                playerRepository.delete(player);
+            });
+
+            for (League league : leagueRepository.findAll()) {
+                league.getTeams().removeIf(team ->
+                    team.getObjectId().toHexString().equals(teamId)
+                );
+                leagueRepository.save(league);
+            }
+
             teamRepository.deleteById(new ObjectId(teamId));
             return true;
         } catch (Exception e) {
             return false;
         }
     }
-
-    
 }
