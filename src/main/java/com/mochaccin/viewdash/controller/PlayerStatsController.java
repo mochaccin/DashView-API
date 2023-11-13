@@ -20,4 +20,12 @@ public class PlayerStatsController {
                 .map(ResponseEntity::ok)
                 .orElseGet(ResponseEntity.notFound()::build);
     }
+
+    @PostMapping("/{playerId}")
+    public ResponseEntity<?> addStatsToPlayer(@PathVariable String playerId) {
+        if (playerStatsService.addStatsToPlayer(playerId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
 }

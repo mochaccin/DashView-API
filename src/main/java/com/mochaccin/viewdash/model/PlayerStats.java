@@ -1,6 +1,8 @@
 package com.mochaccin.viewdash.model;
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +23,8 @@ public class PlayerStats {
     @Id
     ObjectId objectId;
 
+    @NotNull
+    @NotBlank
     ObjectId playerId;
     private double rating;
     private double kast;
