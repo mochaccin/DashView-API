@@ -10,4 +10,5 @@ import java.util.Optional;
 @Repository
 public interface PlayerStatsRepository extends MongoRepository<PlayerStats, ObjectId> {
     Optional<PlayerStats> findByPlayerId(ObjectId objectId);
+    void deleteByPlayerId(ObjectId objectId);
 }

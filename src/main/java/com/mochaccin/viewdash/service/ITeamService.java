@@ -13,7 +13,9 @@ public interface ITeamService {
     List<PlayerDTO> getTeamPlayers(String teamId);
     List<TeamDTO> getTeams();
 
-    void addPlayerToTeam(ObjectId teamId, ObjectId playerId);
+    boolean addPlayerToTeam(String teamId, String playerId);
+
+    boolean removePlayerFromTeam(String teamId, String playerId);
 
     Team getTeamByName(String teamName);
 

@@ -3,7 +3,6 @@ package com.mochaccin.viewdash.service.impl;
 import com.mochaccin.viewdash.dtomappers.PlayerDTOMapper;
 import com.mochaccin.viewdash.dtomappers.TeamDTOMapper;
 import com.mochaccin.viewdash.model.Coach;
-import com.mochaccin.viewdash.model.Player;
 import com.mochaccin.viewdash.model.Team;
 import com.mochaccin.viewdash.model.dto.PlayerDTO;
 import com.mochaccin.viewdash.model.dto.TeamDTO;
@@ -44,17 +43,39 @@ public class TeamServiceImpl implements ITeamService {
         return null;
     }
     @Override
-    public void addPlayerToTeam(ObjectId teamId, ObjectId playerId) {
-        Team team;
-        Player player;
-        if (teamRepository.findById(teamId).isPresent() || playerRepository.findById(playerId).isPresent()) {
-            team = teamRepository.findById(teamId).get();
-            List<Player> players = team.getPlayers();
-            player = playerRepository.findById(playerId).get();
-            players.add(player);
-            team.setPlayers(players);
+    public boolean addPlayerToTeam(String teamId, String playerId) {
+
+        if (playerId.length() != 24 || teamId.length() != 24) { return false; }
+
+        ObjectId playerObjectID = new ObjectId(playerId);
+        ObjectId teamObjectID = new ObjectId(teamId);
+
+        if (teamRepository.existsById(teamObjectID) || playerRepository.existsById(playerObjectID)) {
+            Team team = teamRepository.findById(teamObjectID).get();
+            team.getPlayers().add(playerRepository.findById(playerObjectID).get());
             teamRepository.save(team);
+            return true;
         }
+
+        return false;
+    }
+
+    @Override
+    public boolean removePlayerFromTeam(String teamId, String playerId) {
+
+        if (playerId.length() != 24 || teamId.length() != 24) { return false; }
+
+        ObjectId playerObjectID = new ObjectId(playerId);
+        ObjectId teamObjectID = new ObjectId(teamId);
+
+        if (teamRepository.existsById(teamObjectID) || playerRepository.existsById(playerObjectID)) {
+            Team team = teamRepository.findById(teamObjectID).get();
+            team.getPlayers().add(playerRepository.findById(playerObjectID).get());
+            teamRepository.save(team);
+            return true;
+        }
+
+        return false;
     }
 
     @Override

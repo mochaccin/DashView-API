@@ -22,6 +22,9 @@ public class PlayerServiceImpl implements IPlayerService {
     private PlayerStatsRepository playerStatsRepository;
 
     @Autowired
+    private TeamRepository teamRepository;
+
+    @Autowired
     private PlayerDTOMapper playerDTOMapper;
 
     @Override
@@ -52,8 +55,17 @@ public class PlayerServiceImpl implements IPlayerService {
     public boolean deletePlayer(String playerId) {
         if (playerId.length() != 24) { return false; }
 
+        ObjectId playerObjectId = new ObjectId(playerId);
+
         try {
-            playerRepository.deleteById(new ObjectId(playerId));
+            playerRepository.deleteById(playerObjectId);
+            playerStatsRepository.deleteByPlayerId(playerObjectId);
+            teamRepository.findAll().forEach(team -> {
+                team.getPlayers().removeIf(player ->
+                        player.getObjectId().toHexString().equals(playerId)
+                );
+                teamRepository.save(team);
+            });
             return true;
         } catch (Exception e) {
             return false;

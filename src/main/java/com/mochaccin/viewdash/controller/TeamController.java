@@ -86,5 +86,20 @@ public class TeamController {
             return ResponseEntity.badRequest().body("Ocurrio un error en el servidor.");
         }
     }
-        
+
+    @PatchMapping("/{teamId}/players/add")
+    public ResponseEntity<?> addPlayerToTeamPlayers(@PathVariable String teamId, @PathVariable String playerId) {
+        if (teamService.addPlayerToTeam(teamId, playerId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PatchMapping("/{teamId}/players/remove")
+    public ResponseEntity<?> removePlayerFromTeamPlayers(@PathVariable String teamId, @PathVariable String playerId) {
+        if (teamService.removePlayerFromTeam(teamId, playerId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
 }
