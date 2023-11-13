@@ -124,4 +124,16 @@ public class TeamServiceImpl implements ITeamService {
             return false;
         }
     }
+
+    @Override
+    public boolean deleteTeam(String teamId) {
+        try {
+            teamRepository.deleteById(new ObjectId(teamId));
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    
 }
