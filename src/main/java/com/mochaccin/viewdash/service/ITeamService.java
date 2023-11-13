@@ -17,7 +17,7 @@ public interface ITeamService {
 
     boolean removePlayerFromTeam(String teamId, String playerId);
 
-    Team getTeamByName(String teamName);
+    TeamDTO getTeamByName(String teamName);
 
     public HashMap<String, String> getTeamPlaystyle(String teamId);
 

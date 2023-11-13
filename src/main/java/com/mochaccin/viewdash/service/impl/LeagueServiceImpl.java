@@ -109,6 +109,8 @@ public class LeagueServiceImpl implements ILeagueService {
 
     @Override
     public HashMap<String, TeamLeagueDetails> getTeamDetailsByLeagueId(String leagueId) {
+        if (leagueId.length() != 24) { return null; }
+
         if(leagueRepository.findById(new ObjectId(leagueId)).isPresent()){
            return leagueRepository.findById(new ObjectId(leagueId)).get().getTeamsDetails();
         }
