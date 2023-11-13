@@ -7,6 +7,7 @@ import com.mochaccin.viewdash.model.League;
 import com.mochaccin.viewdash.model.Team;
 import com.mochaccin.viewdash.model.dto.PlayerDTO;
 import com.mochaccin.viewdash.model.dto.TeamDTO;
+import com.mochaccin.viewdash.repository.CoachRepository;
 import com.mochaccin.viewdash.repository.LeagueRepository;
 import com.mochaccin.viewdash.repository.PlayerRepository;
 import com.mochaccin.viewdash.repository.TeamRepository;
@@ -28,6 +29,9 @@ public class TeamServiceImpl implements ITeamService {
 
     @Autowired
     private LeagueRepository leagueRepository;
+
+    @Autowired
+    private CoachRepository coachRepository;
 
     @Autowired
     private TeamDTOMapper teamDTOMapper;
@@ -151,5 +155,39 @@ public class TeamServiceImpl implements ITeamService {
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public boolean removeCoachFromTeam(String teamId, String coachId) {
+        if (coachId.length() != 24 || teamId.length() != 24) { return false; }
+
+        ObjectId coachObjectID = new ObjectId(coachId);
+        ObjectId teamObjectID = new ObjectId(teamId);
+
+        if (teamRepository.existsById(teamObjectID) || coachRepository.existsById(coachObjectID)) {
+            Team team = teamRepository.findById(teamObjectID).get();
+            team.getCoaches().remove(coachRepository.findById(coachObjectID).get());
+            teamRepository.save(team);
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean addCoachToTeam(String teamId, String coachId) {
+        if (coachId.length() != 24 || teamId.length() != 24) { return false; }
+
+        ObjectId coachObjectID = new ObjectId(coachId);
+        ObjectId teamObjectID = new ObjectId(teamId);
+
+        if (teamRepository.existsById(teamObjectID) || coachRepository.existsById(coachObjectID)) {
+            Team team = teamRepository.findById(teamObjectID).get();
+            team.getCoaches().add(coachRepository.findById(coachObjectID).get());
+            teamRepository.save(team);
+            return true;
+        }
+
+        return false;
     }
 }

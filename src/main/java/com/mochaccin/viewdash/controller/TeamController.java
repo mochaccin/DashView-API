@@ -110,4 +110,20 @@ public class TeamController {
         }
         return ResponseEntity.badRequest().build();
     }
+
+    @PatchMapping("/{teamId}/coaches/remove")
+    public ResponseEntity<?> removeCoachFromTeamCoaches(@PathVariable String teamId, @PathVariable String coachId) {
+        if (teamService.removeCoachFromTeam(teamId, coachId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PatchMapping("/{teamId}/coaches/add")
+    public ResponseEntity<?> addCoachToTeamCoaches(@PathVariable String teamId, @PathVariable String coachId) {
+        if (teamService.addCoachToTeam(teamId, coachId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
 }
