@@ -23,7 +23,7 @@ public interface ITeamService {
 
     public HashMap<String, String> getTeamStats(String teamId);
 
-    public List<Coach> getTeamCoaches(String teamId);
+    public Coach getTeamCoach(String teamId);
 
     boolean createTeam(Team teamBody);
     boolean deleteTeam(String teamId);

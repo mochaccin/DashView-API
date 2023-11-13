@@ -76,9 +76,9 @@ public class TeamController {
                 .orElseGet(ResponseEntity.notFound()::build);
     }
 
-    @GetMapping("/{teamId}/coaches")
-    public ResponseEntity<?> getTeamCoachesByTeamId(@PathVariable String teamId){
-        return Optional.ofNullable(teamService.getTeamCoaches(teamId))
+    @GetMapping("/{teamId}/coach")
+    public ResponseEntity<?> getTeamCoachByTeamId(@PathVariable String teamId){
+        return Optional.ofNullable(teamService.getTeamCoach(teamId))
                 .map(ResponseEntity::ok)
                 .orElseGet(ResponseEntity.notFound()::build);
     }

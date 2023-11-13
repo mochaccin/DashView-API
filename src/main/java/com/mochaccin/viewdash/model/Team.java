@@ -1,6 +1,5 @@
 package com.mochaccin.viewdash.model;
 
-
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -32,7 +31,8 @@ public class Team {
     @DocumentReference
     private List<Player> players;
 
-    private List<Coach> coaches;
+    @DocumentReference
+    private Coach coach;
     private HashMap<String, String> teamPlaystyle;
     private HashMap<String, String> teamStats;
 }

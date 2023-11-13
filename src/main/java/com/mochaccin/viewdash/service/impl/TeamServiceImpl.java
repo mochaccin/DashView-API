@@ -112,11 +112,11 @@ public class TeamServiceImpl implements ITeamService {
     }
 
     @Override
-    public List<Coach> getTeamCoaches(String teamId) {
+    public Coach getTeamCoach(String teamId) {
 
         try {
             if (teamRepository.findById(new ObjectId(teamId)).isPresent()) {
-                return teamRepository.findById(new ObjectId(teamId)).get().getCoaches();
+                return teamRepository.findById(new ObjectId(teamId)).get().getCoach();
             }
         } catch (Exception e) {
             return null;
@@ -166,7 +166,7 @@ public class TeamServiceImpl implements ITeamService {
 
         if (teamRepository.existsById(teamObjectID) || coachRepository.existsById(coachObjectID)) {
             Team team = teamRepository.findById(teamObjectID).get();
-            team.getCoaches().remove(coachRepository.findById(coachObjectID).get());
+            team.setCoach(null);
             teamRepository.save(team);
             return true;
         }
@@ -183,7 +183,7 @@ public class TeamServiceImpl implements ITeamService {
 
         if (teamRepository.existsById(teamObjectID) || coachRepository.existsById(coachObjectID)) {
             Team team = teamRepository.findById(teamObjectID).get();
-            team.getCoaches().add(coachRepository.findById(coachObjectID).get());
+            team.setCoach(coachRepository.findById(coachObjectID).get());
             teamRepository.save(team);
             return true;
         }
