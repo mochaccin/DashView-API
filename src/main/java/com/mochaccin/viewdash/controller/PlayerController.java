@@ -28,7 +28,7 @@ public class PlayerController {
     }
 
     @GetMapping("/nickname/{playerNickname}")
-    public ResponseEntity<?> getTeamByNickname(@PathVariable String playerNickname){
+    public ResponseEntity<?> getPlayerByNickname(@PathVariable String playerNickname){
         return Optional.ofNullable(playerService.getPlayerByNickname(playerNickname))
                 .map(ResponseEntity::ok)
                 .orElseGet(ResponseEntity.notFound()::build);

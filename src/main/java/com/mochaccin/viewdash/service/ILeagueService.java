@@ -15,10 +15,15 @@ public interface ILeagueService {
 
     boolean createLeague(League leagueBody);
 
-    void addTeamToLeague(ObjectId leagueId, ObjectId teamId);
+    boolean deleteLeague(String leagueId);
+
+    boolean addTeamToLeague(String leagueId, String teamId);
+
+     boolean removeTeamFromLeague(String leagueId, String teamId);
     
     List<TeamDTO> getTeamsByLeagueId(String objectId);
 
     public HashMap<String, TeamLeagueDetails> getTeamDetailsByLeagueId(String leagueId);
 
+    LeagueDTO getLeagueByName(String leagueName);
 }

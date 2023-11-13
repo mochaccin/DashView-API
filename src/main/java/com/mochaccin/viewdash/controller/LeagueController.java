@@ -27,7 +27,7 @@ public class LeagueController {
     ILeagueService leagueService;
 
     @GetMapping
-    public ResponseEntity<List<LeagueDTO>> getLeagues() {
+    public ResponseEntity<?> getLeagues() {
         return ResponseEntity.ok(leagueService.getLeagues());
     }
 
@@ -44,10 +44,19 @@ public class LeagueController {
         return ResponseEntity.badRequest().body("Ocurrio un error en el servidor.");
     }
 
-    @PostMapping("/addTeams")
-    public ResponseEntity addPlayerToTeam() {
-        leagueService.addTeamToLeague(new ObjectId("652b1b2848dc890a9cad0ca9"), new ObjectId("653d7c19e5569e735015b8b5"));
-        return ResponseEntity.status(HttpStatus.CREATED).build();
+    @DeleteMapping("/{leagueId}")
+    public ResponseEntity<?> deleteLeague(@PathVariable String leagueId) {
+        if (leagueService.deleteLeague(leagueId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @GetMapping("/{leagueName}")
+    public ResponseEntity<LeagueDTO> getLeagueByName(@PathVariable String leagueName) {
+        return Optional.ofNullable(leagueService.getLeagueByName(leagueName))
+                .map(ResponseEntity::ok)
+                .orElseGet(ResponseEntity.notFound()::build);
     }
 
     @GetMapping("/{leagueId}/teams")
@@ -68,5 +77,21 @@ public class LeagueController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PatchMapping("{leagueId}/teams/add/{teamId}")
+    public ResponseEntity<?> addTeamToLeagueTeams(@PathVariable String leagueId, @PathVariable String teamId) {
+        if (leagueService.addTeamToLeague(leagueId, teamId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    @PatchMapping("{leagueId}/teams/remove/{teamId}")
+    public ResponseEntity<?> removeTeamFromLeagueTeams(@PathVariable String leagueId, @PathVariable String teamId) {
+        if (leagueService.removeTeamFromLeague(leagueId, teamId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
     }
 }

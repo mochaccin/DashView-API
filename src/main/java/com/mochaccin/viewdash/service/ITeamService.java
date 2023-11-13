@@ -2,6 +2,7 @@ package com.mochaccin.viewdash.service;
 import com.mochaccin.viewdash.model.Coach;
 import com.mochaccin.viewdash.model.Player;
 import com.mochaccin.viewdash.model.Team;
+import com.mochaccin.viewdash.model.dto.PlayerDTO;
 import com.mochaccin.viewdash.model.dto.TeamDTO;
 import org.bson.types.ObjectId;
 
@@ -9,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public interface ITeamService {
-    List<Player> getTeamPlayers(String teamId);
+    List<PlayerDTO> getTeamPlayers(String teamId);
     List<TeamDTO> getTeams();
 
     void addPlayerToTeam(ObjectId teamId, ObjectId playerId);

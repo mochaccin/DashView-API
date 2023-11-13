@@ -21,7 +21,7 @@ public class PlayerStatsController {
                 .orElseGet(ResponseEntity.notFound()::build);
     }
 
-    @PostMapping("/{playerId}")
+    @PutMapping("/{playerId}")
     public ResponseEntity<?> addStatsToPlayer(@PathVariable String playerId) {
         if (playerStatsService.addStatsToPlayer(playerId)) {
             return ResponseEntity.ok().build();

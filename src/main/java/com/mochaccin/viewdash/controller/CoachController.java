@@ -28,4 +28,12 @@ public class CoachController {
         }
 
     }
+
+    @DeleteMapping("/{coachId}")
+    public ResponseEntity<?> deleteCoach(@PathVariable String coachId) {
+        if (coachService.deleteCoach(coachId)) {
+            return ResponseEntity.ok().build();
+        }
+        return ResponseEntity.badRequest().build();
+    }
 }

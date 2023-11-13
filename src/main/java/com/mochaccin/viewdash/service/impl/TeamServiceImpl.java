@@ -1,9 +1,11 @@
 package com.mochaccin.viewdash.service.impl;
 
+import com.mochaccin.viewdash.dtomappers.PlayerDTOMapper;
 import com.mochaccin.viewdash.dtomappers.TeamDTOMapper;
 import com.mochaccin.viewdash.model.Coach;
 import com.mochaccin.viewdash.model.Player;
 import com.mochaccin.viewdash.model.Team;
+import com.mochaccin.viewdash.model.dto.PlayerDTO;
 import com.mochaccin.viewdash.model.dto.TeamDTO;
 import com.mochaccin.viewdash.repository.PlayerRepository;
 import com.mochaccin.viewdash.repository.TeamRepository;
@@ -26,12 +28,15 @@ public class TeamServiceImpl implements ITeamService {
     @Autowired
     TeamDTOMapper teamDTOMapper;
 
+    @Autowired
+    PlayerDTOMapper playerDTOMapper;
+
     @Override
-    public List<Player> getTeamPlayers(String teamId) {
+    public List<PlayerDTO> getTeamPlayers(String teamId) {
 
         try {
             if (teamRepository.findById(new ObjectId(teamId)).isPresent()) {
-                return teamRepository.findById(new ObjectId(teamId)).get().getPlayers();
+                return teamRepository.findById(new ObjectId(teamId)).get().getPlayers().stream().map(playerDTOMapper).toList();
             }
         } catch (Exception e) {
             return null;
