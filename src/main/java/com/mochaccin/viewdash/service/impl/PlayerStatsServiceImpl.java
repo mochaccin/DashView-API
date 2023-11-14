@@ -55,6 +55,8 @@ public class PlayerStatsServiceImpl implements IPlayerStatsService {
     }
 
     private boolean randomizePlayerStats(String playerId) {
+        if (playerId.length() != 24) { return false; }
+
         try {
             Random rnum = new Random();
 
@@ -142,6 +144,7 @@ public class PlayerStatsServiceImpl implements IPlayerStatsService {
             Player player = playerRepository.findById(new ObjectId(playerId)).get();
             player.setPlayerStats(ps);
 
+            playerRepository.save(player);
             playerStatsRepository.insert(ps);
             return true;
 

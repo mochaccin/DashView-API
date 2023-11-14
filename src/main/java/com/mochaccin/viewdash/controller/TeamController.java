@@ -95,7 +95,7 @@ public class TeamController {
         }
     }
 
-    @PatchMapping("/{teamId}/players/add")
+    @PatchMapping("/{teamId}/players/add/{playerId}")
     public ResponseEntity<?> addPlayerToTeamPlayers(@PathVariable String teamId, @PathVariable String playerId) {
         if (teamService.addPlayerToTeam(teamId, playerId)) {
             return ResponseEntity.ok().build();
@@ -103,7 +103,7 @@ public class TeamController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PatchMapping("/{teamId}/players/remove")
+    @PatchMapping("/{teamId}/players/remove/{playerId}")
     public ResponseEntity<?> removePlayerFromTeamPlayers(@PathVariable String teamId, @PathVariable String playerId) {
         if (teamService.removePlayerFromTeam(teamId, playerId)) {
             return ResponseEntity.ok().build();
@@ -111,16 +111,16 @@ public class TeamController {
         return ResponseEntity.badRequest().build();
     }
 
-    @PatchMapping("/{teamId}/coaches/remove")
-    public ResponseEntity<?> removeCoachFromTeamCoaches(@PathVariable String teamId, @PathVariable String coachId) {
-        if (teamService.removeCoachFromTeam(teamId, coachId)) {
+    @DeleteMapping("/{teamId}/coach/remove")
+    public ResponseEntity<?> removeCoach(@PathVariable String teamId) {
+        if (teamService.removeCoachFromTeam(teamId)) {
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.badRequest().build();
     }
 
-    @PatchMapping("/{teamId}/coaches/add")
-    public ResponseEntity<?> addCoachToTeamCoaches(@PathVariable String teamId, @PathVariable String coachId) {
+    @PutMapping("/{teamId}/coach/add/{coachId}")
+    public ResponseEntity<?> addCoach(@PathVariable String teamId, @PathVariable String coachId) {
         if (teamService.addCoachToTeam(teamId, coachId)) {
             return ResponseEntity.ok().build();
         }

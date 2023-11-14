@@ -100,6 +100,8 @@ public class LeagueServiceImpl implements ILeagueService {
 
     @Override
     public List<TeamDTO> getTeamsByLeagueId(String leagueId) {
+        if (leagueId.length() != 24) { return null; }
+
         if(leagueRepository.findById(new ObjectId(leagueId)).isPresent()){
              return leagueRepository.findById(new ObjectId(leagueId)).get().getTeams().stream().map(teamDTOMapper).toList();
         }else{

@@ -28,7 +28,7 @@ public interface ITeamService {
     boolean createTeam(Team teamBody);
     boolean deleteTeam(String teamId);
 
-    boolean removeCoachFromTeam(String teamId, String coachId);
+    boolean removeCoachFromTeam(String teamId);
 
     boolean addCoachToTeam(String teamId, String coachId);
 }

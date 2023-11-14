@@ -37,6 +37,7 @@ public class Player {
     @NotNull
     @NotBlank
     private String imgUrl;
+    private String team;
 
     @DocumentReference
     private PlayerStats playerStats;

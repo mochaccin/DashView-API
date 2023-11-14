@@ -42,6 +42,8 @@ public class TeamServiceImpl implements ITeamService {
     @Override
     public List<PlayerDTO> getTeamPlayers(String teamId) {
 
+        if (teamId.length() != 24) { return null; }
+
         try {
             if (teamRepository.findById(new ObjectId(teamId)).isPresent()) {
                 return teamRepository.findById(new ObjectId(teamId)).get().getPlayers().stream().map(playerDTOMapper).toList();
@@ -103,16 +105,20 @@ public class TeamServiceImpl implements ITeamService {
 
     @Override
     public HashMap<String, String> getTeamPlaystyle(String teamId) {
+        if (teamId.length() != 24) { return null; }
         return teamRepository.findById(new ObjectId(teamId)).get().getTeamPlaystyle();
     }
 
     @Override
     public HashMap<String, String> getTeamStats(String teamId) {
+        if (teamId.length() != 24) { return null; }
         return teamRepository.findById(new ObjectId(teamId)).get().getTeamStats();
     }
 
     @Override
     public Coach getTeamCoach(String teamId) {
+
+        if (teamId.length() != 24) { return null; }
 
         try {
             if (teamRepository.findById(new ObjectId(teamId)).isPresent()) {
@@ -158,19 +164,17 @@ public class TeamServiceImpl implements ITeamService {
     }
 
     @Override
-    public boolean removeCoachFromTeam(String teamId, String coachId) {
-        if (coachId.length() != 24 || teamId.length() != 24) { return false; }
+    public boolean removeCoachFromTeam(String teamId) {
+        if (teamId.length() != 24) { return false; }
 
-        ObjectId coachObjectID = new ObjectId(coachId);
         ObjectId teamObjectID = new ObjectId(teamId);
 
-        if (teamRepository.existsById(teamObjectID) || coachRepository.existsById(coachObjectID)) {
+        if (teamRepository.existsById(teamObjectID)) {
             Team team = teamRepository.findById(teamObjectID).get();
             team.setCoach(null);
             teamRepository.save(team);
             return true;
         }
-
         return false;
     }
 

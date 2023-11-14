@@ -12,7 +12,7 @@ import java.util.function.Function;
 public class PlayerDTOMapper implements Function<Player, PlayerDTO> {
     @Override
     public PlayerDTO apply(Player player) {
-        return new PlayerDTO(player.getObjectId().toHexString(), player.getNickname(), player.getName(), player.getNationality(),
+        return new PlayerDTO(player.getObjectId().toHexString(), player.getNickname(), player.getName(), player.getTeam(), player.getNationality(),
                 player.getBirthday(), player.getRole(), player.getImgUrl()
         );
     }
