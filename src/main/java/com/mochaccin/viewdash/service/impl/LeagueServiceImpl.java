@@ -34,17 +34,25 @@ public class LeagueServiceImpl implements ILeagueService {
 
     @Override
     public List<LeagueDTO> getLeagues() {
-        return leagueRepository.findAll().stream().map(leagueDTOMapper).toList();
+        if (!leagueRepository.findAll().isEmpty()) {
+            return leagueRepository.findAll().stream().map(leagueDTOMapper).toList();
+        }
+
+        return null;
     }
 
     @Override
     public boolean createLeague(League leagueBody) {
-        try {
-            leagueRepository.insert(leagueBody);
-            return true;
-        } catch (Exception e) {
-            return false;
+
+        if (!leagueRepository.existsByName(leagueBody.getName())) {
+            try {
+                leagueRepository.insert(leagueBody);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
         }
+        return false;
     }
 
     @Override

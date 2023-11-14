@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface CoachRepository extends MongoRepository<Coach, ObjectId> {
+    boolean existsByName(String name);
 }
 
 

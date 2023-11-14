@@ -29,7 +29,11 @@ public class PlayerServiceImpl implements IPlayerService {
 
     @Override
     public List<PlayerDTO> getAllPlayers() {
-        return playerRepository.findAll().stream().map(playerDTOMapper).toList();
+        if (!playerRepository.findAll().isEmpty()) {
+            return playerRepository.findAll().stream().map(playerDTOMapper).toList();
+        }
+
+        return null;
     }
 
     @Override
@@ -43,12 +47,16 @@ public class PlayerServiceImpl implements IPlayerService {
 
     @Override
     public boolean createPlayer(Player playerBody) {
-        try {
-            playerRepository.insert(playerBody);
-            return true;
-        } catch (Exception e) {
-            return false;
+
+        if(!playerRepository.existsByNickname(playerBody.getNickname())) {
+            try {
+                playerRepository.insert(playerBody);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
         }
+        return false;
     }
 
     @Override

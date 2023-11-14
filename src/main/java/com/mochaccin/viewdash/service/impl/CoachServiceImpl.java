@@ -23,12 +23,17 @@ public class CoachServiceImpl implements ICoachService {
 
     @Override
     public boolean createCoach(Coach coachBody) {
-        try {
-            coachRepository.insert(coachBody);
-            return true;
-        } catch (Exception e) {
-            return false;
+
+        if (coachRepository.existsByName(coachBody.getName())) {
+            try {
+                coachRepository.insert(coachBody);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
         }
+
+        return false;
     }
 
     @Override

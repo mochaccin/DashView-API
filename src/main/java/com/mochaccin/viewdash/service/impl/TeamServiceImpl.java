@@ -100,7 +100,10 @@ public class TeamServiceImpl implements ITeamService {
 
     @Override
     public List<TeamDTO> getTeams() {
-        return teamRepository.findAll().stream().map(teamDTOMapper).toList();
+        if (!teamRepository.findAll().isEmpty()) {
+            return teamRepository.findAll().stream().map(teamDTOMapper).toList();
+        }
+        return null;
     }
 
     @Override
@@ -132,12 +135,16 @@ public class TeamServiceImpl implements ITeamService {
 
     @Override
     public boolean createTeam(Team teamBody) {
-        try {
-            teamRepository.insert(teamBody);
-            return true;
-        } catch (Exception e) {
-            return false;
+
+        if (!teamRepository.existsByName(teamBody.getName())) {
+            try {
+                teamRepository.insert(teamBody);
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
         }
+        return false;
     }
 
     @Override
