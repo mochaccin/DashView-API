@@ -8,12 +8,24 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+/**
+ * REST Controller for managing coaches.
+ * Provides endpoints for creating and deleting coach entities.
+ */
 @RestController
 @RequestMapping("/coaches")
 @CrossOrigin(origins = {"http://localhost:5173"})
 public class CoachController {
     @Autowired
     ICoachService coachService;
+
+    /**
+     * Create a new coach.
+     *
+     * @param coachBody The coach information to be created.
+     * @param bindingResult Contains any validation errors.
+     * @return A ResponseEntity indicating the result of the creation operation.
+     */
     @PostMapping
     public ResponseEntity<?> createCoach(@Valid @RequestBody Coach coachBody, BindingResult bindingResult) {
 
@@ -28,6 +40,13 @@ public class CoachController {
         }
 
     }
+
+    /**
+     * Delete a coach by their ID.
+     *
+     * @param coachId The ID of the coach to delete.
+     * @return A ResponseEntity indicating the result of the deletion operation.
+     */
 
     @DeleteMapping("/{coachId}")
     public ResponseEntity<?> deleteCoach(@PathVariable String coachId) {

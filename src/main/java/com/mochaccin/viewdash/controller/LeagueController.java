@@ -18,6 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * REST Controller for managing leagues.
+ * Provides endpoints for operations related to leagues.
+ */
 @RestController
 @RequestMapping("/leagues")
 @CrossOrigin(origins = {"http://localhost:5173"})
@@ -26,11 +30,23 @@ public class LeagueController {
     @Autowired
     ILeagueService leagueService;
 
+    /**
+     * Get all leagues.
+     *
+     * @return A list of all leagues.
+     */
     @GetMapping
     public ResponseEntity<?> getLeagues() {
         return ResponseEntity.ok(leagueService.getLeagues());
     }
 
+    /**
+     * Create a new league.
+     *
+     * @param leagueBody The league information to be created.
+     * @param bindingResult Contains any validation errors.
+     * @return A ResponseEntity indicating the result of the creation operation.
+     */
     @PostMapping
     public ResponseEntity<?> createLeague(@Valid @RequestBody League leagueBody, BindingResult bindingResult) {
 
@@ -44,6 +60,12 @@ public class LeagueController {
         return ResponseEntity.badRequest().body("Ocurrio un error en el servidor.");
     }
 
+    /**
+     * Delete a league by its ID.
+     *
+     * @param leagueId The ID of the league to delete.
+     * @return A ResponseEntity indicating the result of the deletion operation.
+     */
     @DeleteMapping("/{leagueId}")
     public ResponseEntity<?> deleteLeague(@PathVariable String leagueId) {
         if (leagueService.deleteLeague(leagueId)) {
@@ -52,6 +74,12 @@ public class LeagueController {
         return ResponseEntity.badRequest().build();
     }
 
+    /**
+     * Get a league by its name.
+     *
+     * @param leagueName The name of the league to retrieve.
+     * @return A ResponseEntity containing the league details or a not found status.
+     */
     @GetMapping("/{leagueName}")
     public ResponseEntity<LeagueDTO> getLeagueByName(@PathVariable String leagueName) {
         return Optional.ofNullable(leagueService.getLeagueByName(leagueName))
@@ -59,6 +87,12 @@ public class LeagueController {
                 .orElseGet(ResponseEntity.notFound()::build);
     }
 
+    /**
+     * Get teams by league ID.
+     *
+     * @param leagueId The ID of the league.
+     * @return A ResponseEntity containing a list of teams in the league or a not found status.
+     */
     @GetMapping("/{leagueId}/teams")
     public ResponseEntity<List<TeamDTO>> getTeamsByLeagueId(@PathVariable String leagueId) {
     List<TeamDTO> teams = leagueService.getTeamsByLeagueId(leagueId);
@@ -69,6 +103,12 @@ public class LeagueController {
         }
     }
 
+    /**
+     * Get team details by league ID.
+     *
+     * @param leagueId The ID of the league.
+     * @return A ResponseEntity containing details of teams in the league or a not found status.
+     */
     @GetMapping("/{leagueId}/leagueTeamDetails")
     public ResponseEntity<?> getLeagueTeamDetailsByLeagueId(@PathVariable String leagueId) {
         HashMap<String, TeamLeagueDetails> leagueTeamsDetails = leagueService.getTeamDetailsByLeagueId(leagueId);
@@ -79,6 +119,13 @@ public class LeagueController {
         }
     }
 
+    /**
+     * Add a team to a league.
+     *
+     * @param leagueId The ID of the league.
+     * @param teamId The ID of the team to add.
+     * @return A ResponseEntity indicating the result of the operation.
+     */
     @PatchMapping("{leagueId}/teams/add/{teamId}")
     public ResponseEntity<?> addTeamToLeagueTeams(@PathVariable String leagueId, @PathVariable String teamId) {
         if (leagueService.addTeamToLeague(leagueId, teamId)) {
@@ -87,6 +134,13 @@ public class LeagueController {
         return ResponseEntity.badRequest().build();
     }
 
+    /**
+     * Remove a team from a league.
+     *
+     * @param leagueId The ID of the league.
+     * @param teamId The ID of the team to remove.
+     * @return A ResponseEntity indicating the result of the operation.
+     */
     @PatchMapping("{leagueId}/teams/remove/{teamId}")
     public ResponseEntity<?> removeTeamFromLeagueTeams(@PathVariable String leagueId, @PathVariable String teamId) {
         if (leagueService.removeTeamFromLeague(leagueId, teamId)) {
