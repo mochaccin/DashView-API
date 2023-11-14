@@ -81,7 +81,7 @@ public class TeamServiceImpl implements ITeamService {
 
         if (teamRepository.existsById(teamObjectID) || playerRepository.existsById(playerObjectID)) {
             Team team = teamRepository.findById(teamObjectID).get();
-            team.getPlayers().add(playerRepository.findById(playerObjectID).get());
+            team.getPlayers().remove(playerRepository.findById(playerObjectID).get());
             teamRepository.save(team);
             return true;
         }
