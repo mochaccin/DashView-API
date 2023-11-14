@@ -42,6 +42,10 @@ public class PlayerStatsServiceImpl implements IPlayerStatsService {
 
             if (playerId.length() != 24) { return false; }
 
+            if (playerStatsRepository.findByPlayerId(new ObjectId(playerId)).isPresent()) {
+                return false;
+            }
+
             if (playerRepository.existsById(new ObjectId(playerId))) {
                 return randomizePlayerStats(playerId);
             }
@@ -61,30 +65,31 @@ public class PlayerStatsServiceImpl implements IPlayerStatsService {
             Random rnum = new Random();
 
             PlayerStats ps = new PlayerStats();
+
             ps.setPlayerId(new ObjectId(playerId));
             ps.setObjectId(new ObjectId());
-            ps.setAdr(rnum.nextDouble(0.4, 1.7));
-            ps.setDpr(rnum.nextDouble(0.4, 1.7));
-            ps.setKast(rnum.nextDouble(50.0, 100.0));
-            ps.setKpr(rnum.nextDouble(0.4, 1.7));
-            ps.setImpact(rnum.nextDouble(0.8, 2.0));
-            ps.setHsPercentage(rnum.nextDouble(40.0, 80.0));
-            ps.setRating(rnum.nextDouble(0.8, 2.0));
+            ps.setAdr(Math.floor(rnum.nextDouble(0.4, 1.7) * 100) / 100);
+            ps.setDpr(Math.floor(rnum.nextDouble(0.4, 1.7) * 100) / 100);
+            ps.setKast(Math.floor(rnum.nextDouble(50.0, 100.0) * 100) / 100);
+            ps.setKpr(Math.floor(rnum.nextDouble(0.4, 1.7) * 100) / 100);
+            ps.setImpact(Math.floor(rnum.nextDouble(0.8, 2.0) * 100) / 100);
+            ps.setHsPercentage(Math.floor(rnum.nextDouble(40.0, 80.0) * 100) / 100);
+            ps.setRating(Math.floor(rnum.nextDouble(0.8, 2.0) * 100) / 100);
             ps.setTotalMapsWon(rnum.nextInt(400, 800));
             ps.setTotalMapsPlayed(rnum.nextInt(400, 1000));
             ps.setTotalKills(rnum.nextInt(10000, 40000));
-            ps.setKdRatio(rnum.nextDouble(0.8, 3.0));
+            ps.setKdRatio(Math.floor(rnum.nextDouble(0.8, 3.0) * 100) / 100);
             ps.setTotalMapsLost(rnum.nextInt(100, 400));
             ps.setTotalDeaths(rnum.nextInt(5000, 25000));
 
 
-            Map mirage = new Map("mirage", "https://static.csstats.gg/images/maps/icons/cs2/de_mirage.png", rnum.nextInt(40, 100),1200,rnum.nextInt(800, 1600),rnum.nextInt(800, 1600),rnum.nextDouble(0.8, 2.0),rnum.nextInt(10, 100));
-            Map overpass = new Map("overpass", "https://static.csstats.gg/images/maps/icons/cs2/de_overpass.png", rnum.nextInt(40, 100),350,rnum.nextInt(250, 700),rnum.nextInt(250, 700),rnum.nextDouble(0.8, 2.0),rnum.nextInt(10, 100));
-            Map inferno = new Map("inferno", "https://static.csstats.gg/images/maps/icons/cs2/de_inferno.png", rnum.nextInt(40, 100),800,rnum.nextInt(600, 1100),rnum.nextInt(600, 1100),rnum.nextDouble(0.8, 2.0),rnum.nextInt(10, 100));
-            Map anubis = new Map("anubis", "https://static.csstats.gg/images/maps/icons/cs2/de_anubis.png", rnum.nextInt(40, 100),300,rnum.nextInt(200, 580),rnum.nextInt(200, 580),rnum.nextDouble(0.8, 2.0),rnum.nextInt(10, 100));
-            Map ancient = new Map("ancient", "https://static.csstats.gg/images/maps/icons/de_ancient.png", rnum.nextInt(40, 100),132,rnum.nextInt(80, 300),rnum.nextInt(80, 300),rnum.nextDouble(0.8, 2.0),rnum.nextInt(10, 50));
-            Map vertigo = new Map("vertigo", "https://static.csstats.gg/images/maps/icons/de_vertigo_1.png", rnum.nextInt(40, 100),450,rnum.nextInt(250, 650),rnum.nextInt(250, 650),rnum.nextDouble(0.8, 2.0),rnum.nextInt(10, 100));
-            Map nuke = new Map("nuke", "https://static.csstats.gg/images/maps/icons/cs2/de_nuke.png", rnum.nextInt(40, 100),500,rnum.nextInt(300, 750),rnum.nextInt(300, 750),rnum.nextDouble(0.8, 2.0),rnum.nextInt(10, 100));
+            Map mirage = new Map("mirage", "https://static.csstats.gg/images/maps/icons/cs2/de_mirage.png", rnum.nextInt(40, 100),1200,rnum.nextInt(800, 1600),rnum.nextInt(800, 1600),Math.floor(rnum.nextDouble(0.8, 2.0) * 100) / 100,rnum.nextInt(10, 100));
+            Map overpass = new Map("overpass", "https://static.csstats.gg/images/maps/icons/cs2/de_overpass.png", rnum.nextInt(40, 100),350,rnum.nextInt(250, 700),rnum.nextInt(250, 700),Math.floor(rnum.nextDouble(0.8, 2.0) * 100) / 100,rnum.nextInt(10, 100));
+            Map inferno = new Map("inferno", "https://static.csstats.gg/images/maps/icons/cs2/de_inferno.png", rnum.nextInt(40, 100),800,rnum.nextInt(600, 1100),rnum.nextInt(600, 1100),Math.floor(rnum.nextDouble(0.8, 2.0) * 100) / 100,rnum.nextInt(10, 100));
+            Map anubis = new Map("anubis", "https://static.csstats.gg/images/maps/icons/cs2/de_anubis.png", rnum.nextInt(40, 100),300,rnum.nextInt(200, 580),rnum.nextInt(200, 580),Math.floor(rnum.nextDouble(0.8, 2.0) * 100) / 100,rnum.nextInt(10, 100));
+            Map ancient = new Map("ancient", "https://static.csstats.gg/images/maps/icons/de_ancient.png", rnum.nextInt(40, 100),132,rnum.nextInt(80, 300),rnum.nextInt(80, 300),Math.floor(rnum.nextDouble(0.8, 2.0) * 100) / 100,rnum.nextInt(10, 50));
+            Map vertigo = new Map("vertigo", "https://static.csstats.gg/images/maps/icons/de_vertigo_1.png", rnum.nextInt(40, 100),450,rnum.nextInt(250, 650),rnum.nextInt(250, 650),Math.floor(rnum.nextDouble(0.8, 2.0) * 100) / 100,rnum.nextInt(10, 100));
+            Map nuke = new Map("nuke", "https://static.csstats.gg/images/maps/icons/cs2/de_nuke.png", rnum.nextInt(40, 100),500,rnum.nextInt(300, 750),rnum.nextInt(300, 750),Math.floor(rnum.nextDouble(0.8, 2.0) * 100) / 100,rnum.nextInt(10, 100));
 
             HashMap<String, Weapon> playerWeaponStats = new HashMap<>();
             HashMap<String, Map> playerMapStats = new HashMap<>();
