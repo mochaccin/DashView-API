@@ -109,13 +109,19 @@ public class TeamServiceImpl implements ITeamService {
     @Override
     public HashMap<String, String> getTeamPlaystyle(String teamId) {
         if (teamId.length() != 24) { return null; }
-        return teamRepository.findById(new ObjectId(teamId)).get().getTeamPlaystyle();
+        if (teamRepository.existsById(new ObjectId(teamId))) {
+            return teamRepository.findById(new ObjectId(teamId)).get().getTeamPlaystyle();
+        }
+        return null;
     }
 
     @Override
     public HashMap<String, String> getTeamStats(String teamId) {
         if (teamId.length() != 24) { return null; }
-        return teamRepository.findById(new ObjectId(teamId)).get().getTeamStats();
+        if (teamRepository.existsById(new ObjectId(teamId))) {
+            return teamRepository.findById(new ObjectId(teamId)).get().getTeamStats();
+        }
+        return null;
     }
 
     @Override
@@ -123,12 +129,14 @@ public class TeamServiceImpl implements ITeamService {
 
         if (teamId.length() != 24) { return null; }
 
-        try {
-            if (teamRepository.findById(new ObjectId(teamId)).isPresent()) {
-                return teamRepository.findById(new ObjectId(teamId)).get().getCoach();
+        if (teamRepository.existsById(new ObjectId(teamId))) {
+            try {
+                if (teamRepository.findById(new ObjectId(teamId)).isPresent()) {
+                    return teamRepository.findById(new ObjectId(teamId)).get().getCoach();
+                }
+            } catch (Exception e) {
+                return null;
             }
-        } catch (Exception e) {
-            return null;
         }
         return null;
     }
@@ -151,23 +159,27 @@ public class TeamServiceImpl implements ITeamService {
     public boolean deleteTeam(String teamId) {
         if (teamId.length() != 24) { return false; }
 
-        try {
-            teamRepository.findById(new ObjectId(teamId)).get().getPlayers().forEach(player -> {
-                playerRepository.delete(player);
-            });
+        if (teamRepository.existsById(new ObjectId(teamId))) {
 
-            for (League league : leagueRepository.findAll()) {
-                league.getTeams().removeIf(team ->
-                    team.getObjectId().toHexString().equals(teamId)
-                );
-                leagueRepository.save(league);
+            try {
+                teamRepository.findById(new ObjectId(teamId)).get().getPlayers().forEach(player -> {
+                    playerRepository.delete(player);
+                });
+
+                for (League league : leagueRepository.findAll()) {
+                    league.getTeams().removeIf(team ->
+                            team.getObjectId().toHexString().equals(teamId)
+                    );
+                    leagueRepository.save(league);
+                }
+
+                teamRepository.deleteById(new ObjectId(teamId));
+                return true;
+            } catch (Exception e) {
+                return false;
             }
-
-            teamRepository.deleteById(new ObjectId(teamId));
-            return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
 
     @Override

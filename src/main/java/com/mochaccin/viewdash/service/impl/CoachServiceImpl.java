@@ -24,7 +24,7 @@ public class CoachServiceImpl implements ICoachService {
     @Override
     public boolean createCoach(Coach coachBody) {
 
-        if (coachRepository.existsByName(coachBody.getName())) {
+        if (!coachRepository.existsByName(coachBody.getName())) {
             try {
                 coachRepository.insert(coachBody);
                 return true;
@@ -40,11 +40,14 @@ public class CoachServiceImpl implements ICoachService {
     public boolean deleteCoach(String coachId) {
         if (coachId.length() != 24) { return false; }
 
-        try {
-            coachRepository.deleteById(new ObjectId(coachId));
-            return true;
-        } catch (Exception e) {
-            return false;
+        if (coachRepository.existsById(new ObjectId(coachId))) {
+            try {
+                coachRepository.deleteById(new ObjectId(coachId));
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
         }
+        return false;
     }
 }

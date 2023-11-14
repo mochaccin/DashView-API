@@ -59,12 +59,15 @@ public class LeagueServiceImpl implements ILeagueService {
     public boolean deleteLeague(String leagueId) {
         if (leagueId.length() != 24) { return false; }
 
-        try {
-            leagueRepository.deleteById(new ObjectId(leagueId));
-            return true;
-        } catch (Exception e) {
-            return false;
+        if (leagueRepository.existsById(new ObjectId(leagueId))) {
+            try {
+                leagueRepository.deleteById(new ObjectId(leagueId));
+                return true;
+            } catch (Exception e) {
+                return false;
+            }
         }
+        return false;
     }
 
     @Override

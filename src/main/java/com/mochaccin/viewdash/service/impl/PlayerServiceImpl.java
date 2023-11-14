@@ -65,19 +65,22 @@ public class PlayerServiceImpl implements IPlayerService {
 
         ObjectId playerObjectId = new ObjectId(playerId);
 
-        try {
-            playerStatsRepository.deleteByPlayerId(playerObjectId);
-            for (Team team : teamRepository.findAll()) {
-                team.getPlayers().removeIf(player ->
-                        player.getObjectId().toHexString().equals(playerId)
-                );
-                teamRepository.save(team);
+        if (playerRepository.existsById(playerObjectId)) {
+            try {
+                playerStatsRepository.deleteByPlayerId(playerObjectId);
+                for (Team team : teamRepository.findAll()) {
+                    team.getPlayers().removeIf(player ->
+                            player.getObjectId().toHexString().equals(playerId)
+                    );
+                    teamRepository.save(team);
+                }
+                playerRepository.deleteById(playerObjectId);
+                return true;
+            } catch (Exception e) {
+                return false;
             }
-            playerRepository.deleteById(playerObjectId);
-            return true;
-        } catch (Exception e) {
-            return false;
         }
+        return false;
     }
 
     @Override
@@ -87,7 +90,7 @@ public class PlayerServiceImpl implements IPlayerService {
 
         ObjectId playerObjectId = new ObjectId(id);
 
-        if (playerRepository.findById(playerObjectId).isEmpty()) { return null; }
+        if (!playerRepository.existsById(playerObjectId)) { return null; }
 
         return playerRepository.findById(playerObjectId).get();
     }
