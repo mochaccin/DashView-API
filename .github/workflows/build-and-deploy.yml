@@ -28,6 +28,16 @@ jobs:
           distribution: 'temurin'
           java-version: '17'
 
+      - name: Create resource folder
+        env:
+          MY_SECRET: ${{ secrets.DB_URI_VARIABLE }}
+        run: |
+          cd src/main
+          mkdir resources
+          touch application.properties
+          echo "spring.data.mongodb.database=viewdash" > application.properties
+          echo "$MY_SECRET" > application.properties
+
       - name: Build with Maven
         run: mvn clean install
 
