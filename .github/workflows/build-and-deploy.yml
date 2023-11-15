@@ -32,7 +32,7 @@ jobs:
         env:
           MY_SECRET: ${{ secrets.DB_URI_VARIABLE }}
         run: |
-          cd src/main
+          cd src/main/
           mkdir resources
           cd resources
           touch application.properties
