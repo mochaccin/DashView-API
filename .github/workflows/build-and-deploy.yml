@@ -34,9 +34,11 @@ jobs:
         run: |
           cd src/main
           mkdir resources
+          cd resources
           touch application.properties
           echo "spring.data.mongodb.database=viewdash" > application.properties
           echo "$MY_SECRET" > application.properties
+          cd ../../..
 
       - name: Build with Maven
         run: mvn clean install
