@@ -50,3 +50,20 @@ jobs:
         run: |
           echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
           docker push ${{secrets.DOCKER_USERNAME}}/viewdashapi
+
+  deploy:
+    needs: [ build-docker-image ]
+    runs-on: ubuntu-latest
+    environment:
+      name: 'Production'
+
+    steps:
+    - name: executing remote ssh commands using ssh key
+      uses: appleboy/ssh-action@v1.0.0
+      with:
+        host: ${{ secrets.HOST }}
+        username: viewdash
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: |
+          whoami
