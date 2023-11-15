@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Optional;
 
 /**
- * REST Controller for managing player statistics.
- * Provides endpoints for operations related to player statistics.
+ * <h2>REST Controller for managing player statistics.</h2>
+ * <p>Provides endpoints for CRUD operations related to player statistics.</p>
  */
 @RestController
 @RequestMapping("/playerStats")

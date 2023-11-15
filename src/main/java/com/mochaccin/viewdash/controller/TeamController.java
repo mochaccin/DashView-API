@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST Controller for managing teams.
- * Provides endpoints for operations related to teams.
+ * <h2>REST Controller for managing teams.</h2>
+ * <p>Provides endpoints for CRUD operations related to teams.</p>
  */
 @RestController
 @RequestMapping("/teams")

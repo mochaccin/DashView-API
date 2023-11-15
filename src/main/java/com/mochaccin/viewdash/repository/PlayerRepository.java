@@ -8,8 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * Repository interface for Player entities.
- * Extends MongoRepository, providing CRUD operations and additional query methods for Player entities.
+ * Repository interface for managing Players objects in MongoDB.
  */
 @Repository
 public interface PlayerRepository extends MongoRepository<Player, ObjectId> {

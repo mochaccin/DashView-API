@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST Controller for managing leagues.
- * Provides endpoints for operations related to leagues.
+ * <h2>REST Controller for managing leagues.</h2>
+ * <p>Provides endpoints for CRUD operations related to leagues.</p>
  */
 @RestController
 @RequestMapping("/leagues")

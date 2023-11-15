@@ -9,8 +9,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 /**
- * REST Controller for managing coaches.
- * Provides endpoints for creating and deleting coach entities.
+ * <h2>REST Controller for managing coaches.</h2>
+ * <p>Provides endpoints for creating and deleting coach entities.</p>
  */
 @RestController
 @RequestMapping("/coaches")

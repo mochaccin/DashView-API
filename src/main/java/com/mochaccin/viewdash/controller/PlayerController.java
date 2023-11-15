@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * REST Controller for managing players.
- * Provides endpoints for operations related to players.
+ * <h2>REST Controller for managing players.</h2>
+ * <p>Provides endpoints for CRUD operations related to players.</p>
  */
 @RestController
 @RequestMapping("/players")

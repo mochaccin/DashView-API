@@ -18,6 +18,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Service implementation for managing league information.
+ */
 @Service
 public class LeagueServiceImpl implements ILeagueService {
 

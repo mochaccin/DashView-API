@@ -18,6 +18,9 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Service implementation for managing team information.
+ */
 @Service
 public class TeamServiceImpl implements ITeamService {
 

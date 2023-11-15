@@ -8,8 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 /**
- * Repository interface for League entities.
- * Extends MongoRepository, providing CRUD operations and additional query methods for League entities.
+ * Repository interface for managing League objects in MongoDB.
  */
 @Repository
 public interface LeagueRepository extends MongoRepository<League, ObjectId> {

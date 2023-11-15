@@ -12,6 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Service implementation for managing coach information.
+ */
 @Service
 public class CoachServiceImpl implements ICoachService {
 
