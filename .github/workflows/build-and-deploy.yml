@@ -58,19 +58,23 @@ jobs:
       name: 'Production'
 
     steps:
-    - name: executing remote ssh commands using ssh key
-      uses: appleboy/ssh-action@v1.0.0
-      env:
-        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
-      with:
-        host: ${{ secrets.HOST }}
-        username: ec2-user
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        script: |
-          whoami
-          docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-          docker pull ${{ secrets.DOCKER_USERNAME }}/viewdashapi:latest
-          docker stop ViewdashApiContainer
-          docker run --rm -d -p 8080:80 -p 8443:443 --name ViewdashApiContainer ${{ secrets.DOCKER_USERNAME }}/viewdashapi:latest
+      - name: Log into Docker and upload image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+
+      - name: executing remote ssh commands using ssh key
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ec2-user
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            whoami
+            docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+            docker pull ${{ secrets.DOCKER_USERNAME }}/viewdashapi:latest
+            docker stop ViewdashApiContainer
+            docker run --rm -d -p 8080:80 -p 8443:443 --name ViewdashApiContainer ${{ secrets.DOCKER_USERNAME }}/viewdashapi:latest
