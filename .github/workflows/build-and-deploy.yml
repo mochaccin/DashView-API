@@ -1,0 +1,52 @@
+name: Build, Test, and Deploy
+
+on:
+  # run workflow on changes to master
+  push:
+    branches:
+      - maint
+  # run workflow on changes pull requests that is merging to master
+  pull_request:
+    branches:
+      - main
+
+  # let user run the workflow manually
+  workflow_dispatch:
+
+jobs:
+  # job 1: build project, build docker image, and upload image to docker hub
+  build-docker-image:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
+      - name: Build with Maven
+        run: mvn clean install
+
+      - name: Run tests
+        run: mvn test
+
+      - name: Compile
+        run: mvn compile
+
+      - name: Package
+        run: mvn package
+
+      - name: Build docker image
+        run: docker build -t ${{secrets.DOCKER_USERNAME}}/viewdashapi .
+
+      - name: Log into Docker and upload image
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        run: |
+          echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
+          docker push ${{secrets.DOCKER_USERNAME}}/viewdashapi
