@@ -70,4 +70,4 @@ jobs:
             echo ${{ secrets.DOCKER_PASSWORD }} | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
             sudo docker pull ${{ secrets.DOCKER_USERNAME }}/viewdashapi:latest
             sudo docker stop ViewdashApiContainer
-            sudo docker run --rm -d -p 8080:80 --name ViewdashApiContainer ${{ secrets.DOCKER_USERNAME }}/viewdashapi:latest
+            sudo docker run --rm -d -p 8080:8080 --name ViewdashApiContainer ${{ secrets.DOCKER_USERNAME }}/viewdashapi:latest
