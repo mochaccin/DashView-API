@@ -27,4 +27,4 @@ It's a simple dashboard for coaches, making it easy to see the performance of ot
 
 > It was such a good learning experience, not only I got to try out Svelte, I also learned to integrate different type of graphs and customize their CSS to fit the aesthetic of the website.
 
-<!-- featured:true -->
+<!-- featured:false -->
